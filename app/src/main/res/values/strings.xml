@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Accountability</string>
+    <string name="current_activity_title">Current activity:</string>
+    <string name="complete_activity_button">Complete Activity</string>
+    <string name="extend_activity_button">Extend Activity</string>
+    <string name="submit">Submit</string>
+</resources>
