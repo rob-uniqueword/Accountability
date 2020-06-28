@@ -1,52 +1,49 @@
 package com.rob_uniqueword.accountability
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_main.*
-import org.w3c.dom.Text
 
-const val EXTRA_MESSAGE = "com.rob_uniqueword.accountability.MESSAGE"
+const val EXTRA_ACTIVITY_MESSAGE = "com.rob_uniqueword.accountability.ACTIVITY"
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_front_page)
 
         val currentActivityTextView = findViewById<TextView>(R.id.currentActivity)
         currentActivityTextView.text = getCurrentActivity()
 
         val activityList = findViewById<RecyclerView>(R.id.activityList)
         activityList.layoutManager = LinearLayoutManager(this)
-        activityList.adapter = ActivityListAdapter(getActivities())
+        getActivities(activityList)
+    }
+
+    private fun getCurrentActivity() : String {
+        return "Making Accountability"
+    }
+
+    private fun getActivities(activityList:RecyclerView) {
+        val activities = AppDatabase.getDb(this).activityDao().getAll()
+        activities.observe(this, androidx.lifecycle.Observer { list ->
+            activityList.adapter = ActivityListAdapter(list)
+        })
+    }
+
+    fun createActivity(view:View) {
+        val intent = Intent(this, EditActivity::class.java)
+        this.startActivity(intent)
     }
 }
 
-fun getCurrentActivity() : String {
-    return "Making Accountability"
-}
 
-fun getActivities() : List<String> {
-    val values = mutableListOf<String>()
-    for (i in 0..100) {
-        values.add("Fake activity $i")
-    }
-    return values
-}
-
-fun listItemClickHandler(view:View, text:String) {
-    Toast.makeText(view.context, text, Toast.LENGTH_SHORT).show()
-}
-
-class ActivityListAdapter(private val values: List<String>) : RecyclerView.Adapter<ActivityListAdapter.ActivityListViewHolder>() {
+class ActivityListAdapter(private val values: List<Activity>) : RecyclerView.Adapter<ActivityListAdapter.ActivityListViewHolder>() {
     override fun getItemCount() = values.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActivityListViewHolder {
@@ -55,16 +52,23 @@ class ActivityListAdapter(private val values: List<String>) : RecyclerView.Adapt
     }
 
     override fun onBindViewHolder(holder: ActivityListViewHolder, position: Int) {
-        holder.textView?.text = values[position]
-        holder.layout?.setOnClickListener(View.OnClickListener { v -> listItemClickHandler(v, holder.textView?.text.toString()) })
+        holder.textView?.text = values[position].name
+        holder.layout?.setOnClickListener { v -> editActivity(v, values[position]) }
     }
 
     class ActivityListViewHolder(itemView:View) : RecyclerView.ViewHolder(itemView) {
-        var textView : TextView? = null
-        var layout : ViewGroup? = null
+        var textView:TextView? = null
+        var layout:ViewGroup? = null
         init {
             textView = itemView.findViewById(R.id.activityListText)
             layout = itemView.findViewById(R.id.activityListLayout)
         }
+    }
+
+    private fun editActivity(view:View, activity:Activity) {
+        val intent = Intent(view.context, EditActivity::class.java).apply {
+            putExtra(EXTRA_ACTIVITY_MESSAGE, activity)
+        }
+        view.context.startActivity(intent)
     }
 }

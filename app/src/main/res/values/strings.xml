@@ -1,7 +1,17 @@
 <resources>
     <string name="app_name">Accountability</string>
-    <string name="current_activity_title">Current activity:</string>
-    <string name="complete_activity_button">Complete Activity</string>
-    <string name="extend_activity_button">Extend Activity</string>
-    <string name="submit">Submit</string>
+
+    <string name="front_page_current_activity_title">Current activity:</string>
+    <string name="front_page_complete_activity_button">Complete Activity</string>
+    <string name="front_page_extend_activity_button">Extend Activity</string>
+
+    <string name="edit_activity_name_title">Activity name</string>
+    <string name="edit_activity_name_prompt">Take over the world</string>
+    <string name="edit_activity_group_title">Group</string>
+    <string name="edit_activity_start_title">From</string>
+    <string name="edit_activity_end_title">To</string>
+    <string name="edit_activity_notes_title">Notes</string>
+    <string name="edit_activity_notes_prompt">It\'s the same thing we do every day</string>
+    <string name="edit_activity_save_button">Save Activity</string>
+
 </resources>
