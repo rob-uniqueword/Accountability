@@ -8,10 +8,15 @@
     <string name="edit_activity_name_title">Activity name</string>
     <string name="edit_activity_name_prompt">Take over the world</string>
     <string name="edit_activity_group_title">Group</string>
+    <string name="edit_activity_new_group_button">New</string>
     <string name="edit_activity_start_title">From</string>
     <string name="edit_activity_end_title">To</string>
     <string name="edit_activity_notes_title">Notes</string>
     <string name="edit_activity_notes_prompt">It\'s the same thing we do every day</string>
     <string name="edit_activity_save_button">Save Activity</string>
+
+    <string name="edit_activity_group_name_title">Activity Group name</string>
+    <string name="edit_activity_group_name_prompt">Evil Schemes</string>
+    <string name="edit_activity_group_save_button">Save Activity Group</string>
 
 </resources>

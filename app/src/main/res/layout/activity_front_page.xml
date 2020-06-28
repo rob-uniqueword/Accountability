@@ -26,7 +26,7 @@
         tools:text="Make Accountability" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonSaveActivityGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -41,8 +41,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="@string/front_page_extend_activity_button"
-        app:layout_constraintBaseline_toBaselineOf="@+id/button"
-        app:layout_constraintStart_toEndOf="@+id/button" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/buttonSaveActivityGroup"
+        app:layout_constraintStart_toEndOf="@+id/buttonSaveActivityGroup" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabCreateActivity"

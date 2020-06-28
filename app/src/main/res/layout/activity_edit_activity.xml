@@ -26,8 +26,7 @@
         android:ems="10"
         android:hint="@string/edit_activity_name_prompt"
         android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:labelFor="@id/titleName"
+        android:inputType="textCapSentences"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleName" />
@@ -50,9 +49,19 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:labelFor="@id/titleGroup"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonNewActivityGroup"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleGroup" />
+
+    <Button
+        android:id="@+id/buttonNewActivityGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:onClick="newActivityGroup"
+        android:text="@string/edit_activity_new_group_button"
+        app:layout_constraintBaseline_toBaselineOf="@+id/spinnerGroup"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/titleFrom"
@@ -61,6 +70,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/edit_activity_start_title"
+        android:labelFor="@id/editTextFromDate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerGroup" />
 
@@ -72,7 +82,8 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:focusable="false"
-        android:labelFor="@id/titleFrom"
+        android:importantForAutofill="no"
+        android:inputType="date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleFrom" />
 
@@ -84,6 +95,8 @@
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:focusable="false"
+        android:importantForAutofill="no"
+        android:inputType="time"
         app:layout_constraintBaseline_toBaselineOf="@+id/editTextFromDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/editTextFromDate" />
@@ -107,6 +120,7 @@
         android:ems="10"
         android:focusable="false"
         android:importantForAutofill="no"
+        android:inputType="date"
         android:labelFor="@id/titleTo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleTo" />
@@ -119,6 +133,8 @@
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:focusable="false"
+        android:importantForAutofill="no"
+        android:inputType="time"
         app:layout_constraintBaseline_toBaselineOf="@+id/editTextToDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/editTextToDate" />
@@ -145,21 +161,22 @@
         android:gravity="start"
         android:hint="@string/edit_activity_notes_prompt"
         android:importantForAutofill="no"
-        android:labelFor="@id/titleNotes"
         android:scrollHorizontally="false"
         android:textAlignment="viewStart"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
+        android:inputType="textCapSentences|textMultiLine"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSaveActivity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleNotes" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/buttonSaveActivity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:onClick="saveActivity"
         android:text="@string/edit_activity_save_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
