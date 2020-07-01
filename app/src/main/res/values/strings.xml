@@ -5,6 +5,8 @@
     <string name="front_page_complete_activity_button">Complete Activity</string>
     <string name="front_page_extend_activity_button">Extend Activity</string>
 
+    <string name="activity_card_dates_format">%1$s - %2$s</string>
+
     <string name="edit_activity_name_title">Activity name</string>
     <string name="edit_activity_name_prompt">Take over the world</string>
     <string name="edit_activity_group_title">Group</string>

@@ -7,7 +7,7 @@ import java.util.*
 import java.util.concurrent.Executors
 
 
-@Database(entities = [Activity::class, ActivityGroup::class], version = 1)
+@Database(entities = [Activity::class, ActivityGroup::class, ActivityChain::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun activityDao() : ActivityDao
@@ -31,8 +31,10 @@ abstract class AppDatabase : RoomDatabase() {
                 Executors.newSingleThreadScheduledExecutor().execute {
                     dbInstance!!.activityGroupDao().insert(ActivityGroup(1, "Ungrouped"))
                     dbInstance!!.activityDao().insert(Activity(
-                        1, 1, "Set up accountability",
-                        Calendar.getInstance().time, Calendar.getInstance().apply { add(Calendar.HOUR_OF_DAY, 1) }.time,
+                        1, 1, null,
+                        "Set Up Accountability",
+                        Calendar.getInstance().time,
+                        Calendar.getInstance().apply { add(Calendar.MINUTE, 15) }.time,
                         "Welcome to Accountability! Hope you have a great time"))
                 }
             }

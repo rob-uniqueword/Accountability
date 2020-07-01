@@ -6,44 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/activityTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/front_page_current_activity_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/currentActivity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/activityTitle"
-        app:layout_constraintStart_toEndOf="@+id/activityTitle"
-        tools:text="Make Accountability" />
-
-    <Button
-        android:id="@+id/buttonSaveActivityGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/front_page_complete_activity_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activityTitle" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/front_page_extend_activity_button"
-        app:layout_constraintBaseline_toBaselineOf="@+id/buttonSaveActivityGroup"
-        app:layout_constraintStart_toEndOf="@+id/buttonSaveActivityGroup" />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabCreateActivity"
         android:layout_width="wrap_content"
@@ -59,7 +21,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activityList"
-        android:layout_width="379dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
@@ -68,7 +30,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
