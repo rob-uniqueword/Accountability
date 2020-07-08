@@ -3,7 +3,7 @@ package com.rob_uniqueword.accountability
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import java.io.Serializable
-import java.util.*
+import java.time.LocalDateTime
 
 @Entity(
     foreignKeys = [
@@ -18,8 +18,8 @@ data class Activity(
     @ColumnInfo(defaultValue = "1") var activityGroupID:Long = 1,
     var activityChainID:Long? = null,
     var name:String = "",
-    var startDate:Date = Calendar.getInstance().time,
-    var endDate:Date = Calendar.getInstance().time,
+    var startDate:LocalDateTime = LocalDateTime.now(),
+    var endDate:LocalDateTime = LocalDateTime.now(),
     var notes:String = "") : Serializable
 {
     override fun equals(other: Any?): Boolean {

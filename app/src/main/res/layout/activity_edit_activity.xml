@@ -69,8 +69,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/edit_activity_start_title"
         android:labelFor="@id/editTextFromDate"
+        android:text="@string/edit_activity_start_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerGroup" />
 
@@ -147,7 +147,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/edit_activity_notes_title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextToDate" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextDurationHours" />
 
     <EditText
         android:id="@+id/editTextNotes"
@@ -161,9 +161,9 @@
         android:gravity="start"
         android:hint="@string/edit_activity_notes_prompt"
         android:importantForAutofill="no"
+        android:inputType="textCapSentences|textMultiLine"
         android:scrollHorizontally="false"
         android:textAlignment="viewStart"
-        android:inputType="textCapSentences|textMultiLine"
         app:layout_constraintBottom_toTopOf="@+id/buttonSaveActivity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -181,5 +181,56 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/titleDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/edit_activity_duration_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextToDate" />
+
+    <EditText
+        android:id="@+id/editTextDurationHours"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleHours" />
+
+    <TextView
+        android:id="@+id/titleHours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/edit_activity_duration_hours"
+        app:layout_constraintStart_toStartOf="@+id/editTextDurationHours"
+        app:layout_constraintTop_toBottomOf="@+id/titleDuration" />
+
+    <TextView
+        android:id="@+id/titleMinutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/edit_activity_duration_minutes"
+        app:layout_constraintBottom_toTopOf="@+id/editTextDurationMinutes"
+        app:layout_constraintStart_toStartOf="@+id/editTextDurationMinutes" />
+
+    <EditText
+        android:id="@+id/editTextDurationMinutes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBaseline_toBaselineOf="@+id/editTextDurationHours"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editTextDurationHours" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,7 +3,9 @@ package com.rob_uniqueword.accountability
 import android.content.Context
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
-import java.util.*
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.util.concurrent.Executors
 
 
@@ -33,8 +35,8 @@ abstract class AppDatabase : RoomDatabase() {
                     dbInstance!!.activityDao().insert(Activity(
                         1, 1, null,
                         "Set Up Accountability",
-                        Calendar.getInstance().time,
-                        Calendar.getInstance().apply { add(Calendar.MINUTE, 15) }.time,
+                        LocalDateTime.now(),
+                        LocalDateTime.now().plusMinutes(15),
                         "Welcome to Accountability! Hope you have a great time"))
                 }
             }
@@ -46,10 +48,10 @@ class Converters {
     companion object {
         @TypeConverter
         @JvmStatic
-        fun fromDate(value: Date?) = value?.time
+        fun fromDate(value: LocalDateTime?) = value?.atZone(ZoneOffset.UTC)?.toEpochSecond()
 
         @TypeConverter
         @JvmStatic
-        fun toDate(value:Long?) = value?.let { Date(it) }
+        fun toDate(value:Long?) = value?.let { LocalDateTime.ofInstant(Instant.ofEpochSecond(value), ZoneOffset.UTC) }
     }
 }
