@@ -110,7 +110,7 @@ class ActivityListAdapter(private val values: List<Activity>) : RecyclerView.Ada
     // todo - make this and createFollowOnActivity aware of existing future activities
     private fun completeActivity(view:View, activity:Activity) {
         activity.endDate = LocalDateTime.now()
-        Thread { AppDatabase.getDb(view.context).activityDao().update(activity) }.start()
+        activity.save(view.context)
         createFollowOnActivity(view, activity)
     }
 

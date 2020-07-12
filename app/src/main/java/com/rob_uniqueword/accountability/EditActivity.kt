@@ -1,12 +1,17 @@
 package com.rob_uniqueword.accountability
 
 import android.app.DatePickerDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.TimePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.work.*
 import kotlinx.android.synthetic.main.activity_edit_activity.*
 import java.time.Duration
 import java.time.LocalDate
@@ -14,6 +19,8 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+
+const val EXTRA_NOTIFICATION_ACTIVITY_ID = "com.rob_uniqueword.accountability.EXTRA_NOTIFICATION_ACTIVITY_ID"
 
 class EditActivity : AppCompatActivity() {
     private var activity:Activity? = null
@@ -95,14 +102,7 @@ class EditActivity : AppCompatActivity() {
         activity.endDate = endDate
         activity.notes = notes
 
-        Thread {
-            if (isInsert) {
-                AppDatabase.getDb(this).activityDao().insert(activity)
-            } else {
-                AppDatabase.getDb(this).activityDao().update(activity)
-            }
-        }.start()
-
+        activity.save(view.context)
         finish()
     }
 

@@ -1,13 +1,14 @@
 package com.rob_uniqueword.accountability
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import java.io.Serializable
 
 @Entity
 data class ActivityGroup(
-    @PrimaryKey(autoGenerate = true) var id:Long = 0,
-    var name:String = "") : Serializable
+    @PrimaryKey(autoGenerate = true) override var id:Long = 0,
+    var name:String = "") : Serializable, DBEntity
 {
     override fun toString(): String {
         return name
@@ -24,13 +25,14 @@ data class ActivityGroup(
     override fun hashCode(): Int {
         return id.hashCode()
     }
+
+    fun save(context:Context) : Long {
+        return AppDatabase.getDb(context).activityGroupDao().insertOrUpdate(this)
+    }
 }
 
 @Dao
-interface ActivityGroupDao {
+abstract class ActivityGroupDao : BaseDao<ActivityGroup>() {
     @Query("select * from ActivityGroup")
-    fun getAll() : LiveData<List<ActivityGroup>>
-
-    @Insert
-    fun insert(activityGroup:ActivityGroup) : Long
+    abstract fun getAll() : LiveData<List<ActivityGroup>>
 }
