@@ -40,5 +40,5 @@ abstract class ActivityGroupDao : BaseDao<ActivityGroup>() {
     abstract fun getAll() : LiveData<List<ActivityGroup>>
 
     @Query("select * from ActivityGroup where id = :id")
-    abstract fun get(id:Long) : ActivityGroup
+    abstract fun getStatic(id:Long) : ActivityGroup
 }

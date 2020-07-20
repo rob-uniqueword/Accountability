@@ -1,11 +1,11 @@
 package com.rob_uniqueword.accountability
 
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import java.time.LocalDateTime
 
 class ActivityOptions : AppCompatActivity() {
@@ -15,22 +15,31 @@ class ActivityOptions : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_activity_options)
 
-        activity = intent.getSerializableExtra(EXTRA_ACTIVITY_MESSAGE) as Activity
+        val activityID = intent.getLongExtra(EXTRA_ACTIVITY_ID_MESSAGE, -1)
+        val appDatabase = AppDatabase.getDb(this)
 
-        Thread {
-            val activityGroup = AppDatabase.getDb(this).activityGroupDao().get(activity.activityGroupID)
-            findViewById<TextView>(R.id.txtActivityGroup).text = activityGroup.name
-        }.start()
-
-        findViewById<TextView>(R.id.txtActivityName).text = activity.name
-        findViewById<TextView>(R.id.txtActivityDates).text = activity.getIntervalString(this)
-
+        val activityNameTextView = findViewById<TextView>(R.id.txtActivityName)
+        val activityDatesTextView = findViewById<TextView>(R.id.txtActivityDates)
+        val activityGroupTextView = findViewById<TextView>(R.id.txtActivityGroup)
         val notesView = findViewById<TextView>(R.id.txtActivityNotes)
-        if (activity.notes.isBlank()) {
-            notesView.visibility = View.GONE
-        } else {
-            notesView.text = activity.notes
-        }
+
+        val liveActivity = appDatabase.activityDao().getLive(activityID)
+        liveActivity.observe(this, Observer {
+            activity = it
+            activityNameTextView.text = it.name
+            activityDatesTextView.text = it.getIntervalString(this)
+
+            Thread {
+                activityGroupTextView.text = appDatabase.activityGroupDao().getStatic(it.activityGroupID).name
+            }.start()
+
+            if (activity.notes.isBlank()) {
+                notesView.visibility = View.GONE
+            } else {
+                notesView.visibility = View.VISIBLE
+                notesView.text = activity.notes
+            }
+        })
     }
 
     // todo - make this and createFollowOnActivity aware of existing future activities
@@ -53,5 +62,6 @@ class ActivityOptions : AppCompatActivity() {
             putExtra(EXTRA_CREATE_FOLLOW_ON_MESSAGE, true)
         }
         view.context.startActivity(intent)
+        finish()
     }
 }

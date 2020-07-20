@@ -12,8 +12,6 @@ import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 
 const val EXTRA_NOTIFICATION_ACTIVITY_ID = "com.rob_uniqueword.accountability.EXTRA_NOTIFICATION_ACTIVITY_ID"
 
@@ -23,8 +21,6 @@ class EditActivity : AppCompatActivity() {
     private var selectedActivityGroupID : Long? = null
 
     private val dateTimeManager:DateTimeManager = DateTimeManager()
-    private val dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-    private val timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)
 
     private val nameText:EditText by lazy{findViewById<EditText>(R.id.editTextName)}
     private val fromDateText:EditText by lazy{findViewById<EditText>(R.id.editTextFromDate)}
@@ -130,13 +126,13 @@ class EditActivity : AppCompatActivity() {
 
     private fun initialiseDateTimeInputs(){
         dateTimeManager.addFromDttmChangedCallback {
-            fromDateText.setText(dateFormat.format(it))
-            fromTimeText.setText(timeFormat.format(it))
+            fromDateText.setText(it.toDateString())
+            fromTimeText.setText(it.toTimeString())
         }
 
         dateTimeManager.addToDttmChangedCallback {
-            toDateText.setText(dateFormat.format(it))
-            toTimeText.setText(timeFormat.format(it))
+            toDateText.setText(it.toDateString())
+            toTimeText.setText(it.toTimeString())
         }
 
         dateTimeManager.addDurationChangedCallback {

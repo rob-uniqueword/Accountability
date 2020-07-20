@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
+const val EXTRA_ACTIVITY_ID_MESSAGE = "com.rob_uniqueword.accountability.ACTIVITY_ID"
 const val EXTRA_ACTIVITY_MESSAGE = "com.rob_uniqueword.accountability.ACTIVITY"
 const val EXTRA_CREATE_FOLLOW_ON_MESSAGE = "com.rob_uniqueword.accountability.CREATE_FOLLOW_ON"
 
@@ -27,8 +28,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun getActivities(activityList:RecyclerView) {
         val activities = AppDatabase.getDb(this).activityDao().getEndingAfter(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC))
-        activities.observe(this, androidx.lifecycle.Observer { list ->
-            activityList.adapter = ActivityListAdapter(list.filter { a -> a.endDate.isAfter(LocalDateTime.now()) })
+        activities.observe(this, androidx.lifecycle.Observer {
+            activityList.adapter = ActivityListAdapter(it.filter { a -> a.endDate.isAfter(LocalDateTime.now()) })
         })
     }
 
@@ -83,7 +84,7 @@ class ActivityListAdapter(private val values: List<Activity>) : RecyclerView.Ada
 
     private fun showActivityOptions(view:View, activity:Activity) {
         val intent = Intent(view.context, ActivityOptions::class.java).apply {
-            putExtra(EXTRA_ACTIVITY_MESSAGE, activity)
+            putExtra(EXTRA_ACTIVITY_ID_MESSAGE, activity.id)
         }
         view.context.startActivity(intent)
     }

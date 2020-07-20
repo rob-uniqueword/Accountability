@@ -30,4 +30,6 @@
     <string name="edit_activity_group_name_prompt">Evil Schemes</string>
     <string name="edit_activity_group_save_button">Save Activity Group</string>
 
+    <string name="toast_activity_end_reminder_set">Reminder set for %1s</string>
+
 </resources>

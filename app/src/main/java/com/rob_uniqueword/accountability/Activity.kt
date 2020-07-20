@@ -5,6 +5,9 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LiveData
 import androidx.room.*
@@ -12,8 +15,6 @@ import androidx.work.*
 import java.io.Serializable
 import java.time.Duration
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 
 const val WORKER_TAG_ACTIVITY_END_NOTIFICATION = "com.rob_uniqueword.accountability.WORKER_TAG_ACTIVITY_END_NOTIFICATION_"
 
@@ -62,13 +63,18 @@ data class Activity(
                     .setInputData(data).addTag(tag).build()
 
                 WorkManager.getInstance(context).enqueue(request)
+
+                val handler = Handler(Looper.getMainLooper())
+                handler.post {
+                    val toastText = context.getString(R.string.toast_activity_end_reminder_set, endDate.toDateTimeString())
+                    Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show()
+                }
             }
         }.start()
     }
 
     fun getIntervalString(context:Context) : String {
-        val format = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
-        return context.getString(R.string.activity_card_dates_format, format.format(startDate), format.format(endDate))
+        return context.getString(R.string.activity_card_dates_format, startDate.toDateTimeString(), endDate.toDateTimeString())
     }
 }
 
@@ -81,13 +87,16 @@ abstract class ActivityDao : BaseDao<Activity>() {
     abstract fun getEndingAfter(cutoffDate:Long) : LiveData<List<Activity>>
 
     @Query("select * from activity where id = :id")
-    abstract fun get(id:Long) : Activity
+    abstract fun getStatic(id:Long) : Activity
+
+    @Query("select * from activity where id = :id")
+    abstract fun getLive(id:Long) : LiveData<Activity>
 }
 
 class NotificationWorker(private val context:Context, params: WorkerParameters) : Worker(context, params) {
     override fun doWork(): Result {
         val activityID = inputData.getLong(EXTRA_NOTIFICATION_ACTIVITY_ID, 0)
-        val activity = AppDatabase.getDb(context).activityDao().get(activityID)
+        val activity = AppDatabase.getDb(context).activityDao().getStatic(activityID)
 
         queueNotification(activity)
 
