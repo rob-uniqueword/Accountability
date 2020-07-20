@@ -2,7 +2,10 @@ package com.rob_uniqueword.accountability
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.Query
 import java.io.Serializable
 
 @Entity
@@ -35,4 +38,7 @@ data class ActivityGroup(
 abstract class ActivityGroupDao : BaseDao<ActivityGroup>() {
     @Query("select * from ActivityGroup")
     abstract fun getAll() : LiveData<List<ActivityGroup>>
+
+    @Query("select * from ActivityGroup where id = :id")
+    abstract fun get(id:Long) : ActivityGroup
 }

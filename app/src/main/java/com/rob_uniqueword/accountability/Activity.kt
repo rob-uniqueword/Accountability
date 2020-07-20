@@ -12,6 +12,8 @@ import androidx.work.*
 import java.io.Serializable
 import java.time.Duration
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 const val WORKER_TAG_ACTIVITY_END_NOTIFICATION = "com.rob_uniqueword.accountability.WORKER_TAG_ACTIVITY_END_NOTIFICATION_"
 
@@ -52,14 +54,21 @@ data class Activity(
 
             workManager.cancelAllWorkByTag(tag)
 
-            val data = Data.Builder().putLong(EXTRA_NOTIFICATION_ACTIVITY_ID, id).build()
+            if (endDate.isAfter(LocalDateTime.now())) {
+                val data = Data.Builder().putLong(EXTRA_NOTIFICATION_ACTIVITY_ID, id).build()
 
-            val request = OneTimeWorkRequest.Builder(NotificationWorker::class.java)
-                .setInitialDelay(Duration.between(LocalDateTime.now(), endDate))
-                .setInputData(data).addTag(tag).build()
+                val request = OneTimeWorkRequest.Builder(NotificationWorker::class.java)
+                    .setInitialDelay(Duration.between(LocalDateTime.now(), endDate))
+                    .setInputData(data).addTag(tag).build()
 
-            WorkManager.getInstance(context).enqueue(request)
+                WorkManager.getInstance(context).enqueue(request)
+            }
         }.start()
+    }
+
+    fun getIntervalString(context:Context) : String {
+        val format = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+        return context.getString(R.string.activity_card_dates_format, format.format(startDate), format.format(endDate))
     }
 }
 
@@ -90,7 +99,9 @@ class NotificationWorker(private val context:Context, params: WorkerParameters) 
         val channel = NotificationChannel("default", "Default", NotificationManager.IMPORTANCE_DEFAULT)
         notificationManager.createNotificationChannel(channel)
 
-        val intent = Intent(applicationContext, EditActivity::class.java)
+        val intent = Intent(applicationContext, ActivityOptions::class.java).apply {
+            putExtra(EXTRA_ACTIVITY_MESSAGE, activity)
+        }
         val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_ONE_SHOT)
 
         val notification = NotificationCompat.Builder(applicationContext, "default")

@@ -1,17 +1,12 @@
 package com.rob_uniqueword.accountability
 
 import android.app.DatePickerDialog
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.TimePickerDialog
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
-import androidx.work.*
 import kotlinx.android.synthetic.main.activity_edit_activity.*
 import java.time.Duration
 import java.time.LocalDate
