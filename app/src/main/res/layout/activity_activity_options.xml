@@ -45,16 +45,14 @@
         app:layout_constraintTop_toBottomOf="@+id/buttonCompleteActity" />
 
     <Button
-        android:id="@+id/buttonFollowOnActivity"
+        android:id="@+id/buttonCreateFollowOnActivity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         android:onClick="createFollowOnActivity"
         android:text="@string/activity_options_create_next_button"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonEditActivity" />
@@ -94,5 +92,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtActivityName"
         tools:text="Activity group" />
+
+    <Button
+        android:id="@+id/buttonDeleteActivity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="deleteActivity"
+        android:text="@string/activity_options_delete_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonCreateFollowOnActivity" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

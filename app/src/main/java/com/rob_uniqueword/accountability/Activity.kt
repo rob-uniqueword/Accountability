@@ -80,10 +80,10 @@ data class Activity(
 
 @Dao
 abstract class ActivityDao : BaseDao<Activity>() {
-    @Query("select * from activity")
+    @Query("select * from activity order by startDate desc")
     abstract fun getAll() : LiveData<List<Activity>>
 
-    @Query("select * from activity where endDate > :cutoffDate order by startDate")
+    @Query("select * from activity where endDate > :cutoffDate order by startDate desc")
     abstract fun getEndingAfter(cutoffDate:Long) : LiveData<List<Activity>>
 
     @Query("select * from activity where id = :id")
@@ -91,6 +91,9 @@ abstract class ActivityDao : BaseDao<Activity>() {
 
     @Query("select * from activity where id = :id")
     abstract fun getLive(id:Long) : LiveData<Activity>
+
+    @Query("delete from activity where id = :id")
+    abstract fun delete(id:Long)
 }
 
 class NotificationWorker(private val context:Context, params: WorkerParameters) : Worker(context, params) {

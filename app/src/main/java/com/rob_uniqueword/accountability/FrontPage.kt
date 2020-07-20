@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.time.LocalDateTime
-import java.time.ZoneOffset
 
 const val EXTRA_ACTIVITY_ID_MESSAGE = "com.rob_uniqueword.accountability.ACTIVITY_ID"
 const val EXTRA_ACTIVITY_MESSAGE = "com.rob_uniqueword.accountability.ACTIVITY"
@@ -27,9 +26,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getActivities(activityList:RecyclerView) {
-        val activities = AppDatabase.getDb(this).activityDao().getEndingAfter(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC))
+        val activities = AppDatabase.getDb(this).activityDao().getAll()
         activities.observe(this, androidx.lifecycle.Observer {
-            activityList.adapter = ActivityListAdapter(it.filter { a -> a.endDate.isAfter(LocalDateTime.now()) })
+            activityList.adapter = ActivityListAdapter(it)
+            val activeIndex = it.indexOfFirst { a -> a.startDate.isBefore(LocalDateTime.now()) && a.endDate.isAfter(LocalDateTime.now()) }
+            val layoutManager = activityList.layoutManager as LinearLayoutManager
+            layoutManager.scrollToPositionWithOffset(activeIndex, 213)
         })
     }
 
@@ -52,9 +54,12 @@ class ActivityListAdapter(private val values: List<Activity>) : RecyclerView.Ada
         val context = holder.layout?.context!!
         val now = LocalDateTime.now()
 
-        if (position == 0 && activity.startDate.isBefore(now) )
+        if (activity.startDate.isBefore(now) && activity.endDate.isAfter(now))
         {
             holder.activityNameText?.setBackgroundColor(context.resources.getColor(R.color.colorAccent, context.theme))
+        } else {
+            // if I don't do this random old cards show up blue. I do not understand why
+            holder.activityNameText?.setBackgroundColor(context.resources.getColor(R.color.colorBackground, context.theme))
         }
 
         holder.activityNameText?.text = activity.name

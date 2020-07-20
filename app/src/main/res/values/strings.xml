@@ -10,6 +10,10 @@
     <string name="activity_options_edit_button">Edit</string>
     <string name="activity_options_complete_button">Complete</string>
     <string name="activity_options_create_next_button">Create Follow On Activity</string>
+    <string name="activity_options_delete_button">Delete</string>
+    <string name="activity_options_confirm_delete_message">Are you sure you want to delete activity %1s?</string>
+    <string name="activity_options_confirm_delete_positive_response">Delete</string>
+    <string name="activity_options_confirm_delete_negative_response">Cancel</string>
 
     <string name="edit_activity_follow_on_note_text">Follow on Activity for %1s</string>
 
