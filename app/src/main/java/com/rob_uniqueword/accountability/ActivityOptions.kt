@@ -12,8 +12,8 @@ import androidx.lifecycle.Observer
 import java.time.LocalDateTime
 
 class ActivityOptions : AppCompatActivity() {
-    lateinit var activity:Activity
-    lateinit var liveActivity:LiveData<Activity>
+    private lateinit var activity:Activity
+    private lateinit var liveActivity:LiveData<Activity>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

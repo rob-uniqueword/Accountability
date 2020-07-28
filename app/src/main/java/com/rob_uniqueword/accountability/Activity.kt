@@ -1,10 +1,13 @@
 package com.rob_uniqueword.accountability
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.media.AudioAttributes
+import android.media.RingtoneManager
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
@@ -108,19 +111,36 @@ class NotificationWorker(private val context:Context, params: WorkerParameters) 
 
     private fun queueNotification(activity:Activity) {
         val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val channel = NotificationChannel("default", "Default", NotificationManager.IMPORTANCE_DEFAULT)
+
+        val channel = NotificationChannel("activity_finished1", "Activity Finished", NotificationManager.IMPORTANCE_HIGH)
+            .apply { enableVibration(true) }
+            .apply { vibrationPattern = longArrayOf(0, 1000, 1000, 1000, 1000, 1000) }
+            .apply {
+                setSound(RingtoneManager.getDefaultUri(
+                    RingtoneManager.TYPE_NOTIFICATION),
+                    AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .build())
+            }
+            .apply { description = "Notifications shown at the end of activities" }
+            .apply { lockscreenVisibility = Notification.VISIBILITY_PRIVATE }
+            .apply { enableLights(true) }
+            .apply { lightColor = R.color.colorPrimary }
+
         notificationManager.createNotificationChannel(channel)
 
-        val intent = Intent(applicationContext, ActivityOptions::class.java).apply {
-            putExtra(EXTRA_ACTIVITY_MESSAGE, activity)
-        }
+        val intent = Intent(applicationContext, ActivityOptions::class.java)
+            .apply { putExtra(EXTRA_ACTIVITY_ID_MESSAGE, activity.id) }
+
         val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_ONE_SHOT)
 
-        val notification = NotificationCompat.Builder(applicationContext, "default")
+        val notification = NotificationCompat.Builder(applicationContext, channel.id)
             .setContentTitle(activity.name + " Finished")
             .setContentText("Hello it's time to finish your activity " + activity.name)
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
 
         notificationManager.notify(1, notification.build())
     }
