@@ -133,7 +133,8 @@ class NotificationWorker(private val context:Context, params: WorkerParameters) 
         val intent = Intent(applicationContext, ActivityOptions::class.java)
             .apply { putExtra(EXTRA_ACTIVITY_ID_MESSAGE, activity.id) }
 
-        val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+        val pendingIntentFlag = PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
+        val pendingIntent = PendingIntent.getActivity(applicationContext, activity.id.toInt(), intent, pendingIntentFlag)
 
         val notification = NotificationCompat.Builder(applicationContext, channel.id)
             .setContentTitle(activity.name + " Finished")
