@@ -160,7 +160,7 @@ class EditActivity : AppCompatActivity() {
 
     private fun setUpDateTimePicker(dateText:EditText, timeText:EditText, setDate:(dttm:LocalDateTime) -> Unit, getDate:() -> LocalDateTime) {
         val date = DatePickerDialog.OnDateSetListener {_:DatePicker, year:Int, month:Int, day:Int ->
-            setDate(LocalDateTime.of(LocalDate.of(year, month, day), getDate().toLocalTime()))
+            setDate(LocalDateTime.of(LocalDate.of(year, month + 1, day), getDate().toLocalTime()))
         }
 
         val time = TimePickerDialog.OnTimeSetListener { _:TimePicker, hour: Int, minute: Int ->
@@ -168,7 +168,7 @@ class EditActivity : AppCompatActivity() {
         }
 
         dateText.setOnClickListener {
-            DatePickerDialog(this, date, getDate().year, getDate().monthValue, getDate().dayOfMonth).show()
+            DatePickerDialog(this, date, getDate().year, getDate().monthValue - 1, getDate().dayOfMonth).show()
         }
 
         timeText.setOnClickListener {
